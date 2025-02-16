@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">Quick Actions</h4>
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('request_blood') }}" class="btn btn-primary">
+                        <i data-feather="plus-circle" class="me-2"></i> New Blood Request
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Notifications</h4>
+                <div class="list-group list-group-flush">
+                    {% for notification in notifications %}
+                    <div class="list-group-item">
+                        <p class="mb-1">{{ notification.message }}</p>
+                        <small class="text-muted">{{ notification.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No new notifications</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">Your Blood Requests</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Blood Type</th>
+                                <th>Quantity</th>
+                                <th>Hospital</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for request in requests %}
+                            <tr>
+                                <td>{{ request.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td>{{ request.blood_type }}</td>
+                                <td>{{ request.quantity_ml }}ml</td>
+                                <td>{{ request.hospital_name }}</td>
+                                <td>
+                                    <span class="badge {% if request.status == 'approved' %}bg-success{% elif request.status == 'pending' %}bg-warning{% else %}bg-danger{% endif %}">
+                                        {{ request.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">No requests found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Available Blood Types</h4>
+                <canvas id="inventoryChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script>
+    const ctx = document.getElementById('inventoryChart').getContext('2d');
+    const inventoryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+            datasets: [{
+                label: 'Available Blood (ml)',
+                data: [500, 300, 400, 200, 100, 150, 600, 250],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
