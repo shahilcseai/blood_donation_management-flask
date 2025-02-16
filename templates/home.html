@@ -14,39 +14,10 @@
             {% if not current_user.is_authenticated %}
                 <a href="{{ url_for('register') }}" class="btn btn-danger btn-lg px-4 gap-3">Register Now</a>
                 <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-4">Login</a>
+            {% elif current_user.role == 'donor' %}
+                <a href="{{ url_for('schedule_donation') }}" class="btn btn-danger btn-lg px-4 gap-3">Donate Now</a>
+                <a href="{{ url_for('donor_dashboard') }}" class="btn btn-outline-light btn-lg px-4">View Dashboard</a>
             {% endif %}
-        </div>
-    </div>
-</div>
-
-<div class="container py-5">
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="card bg-dark stats-card">
-                <div class="card-body text-center">
-                    <i class="bi bi-droplet-fill text-danger display-4"></i>
-                    <h5 class="card-title mt-3">Blood Inventory</h5>
-                    <p class="card-text">Check current blood availability</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-dark stats-card">
-                <div class="card-body text-center">
-                    <i class="bi bi-people-fill text-primary display-4"></i>
-                    <h5 class="card-title mt-3">Donor Community</h5>
-                    <p class="card-text">Join our growing donor network</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-dark stats-card">
-                <div class="card-body text-center">
-                    <i class="bi bi-clipboard2-pulse-fill text-success display-4"></i>
-                    <h5 class="card-title mt-3">Request Blood</h5>
-                    <p class="card-text">Submit blood requests easily</p>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -54,22 +25,24 @@
 <div class="container py-5">
     <h2 class="text-center mb-4">Current Blood Inventory</h2>
     <div class="row">
-        <div class="col-md-8 mx-auto">
-            <canvas id="inventoryChart"></canvas>
-        </div>
+        {% for item in inventory %}
+            <div class="col-md-3 mb-4">
+                <div class="card bg-dark h-100">
+                    <div class="card-body text-center">
+                        <h3 class="card-title display-4 text-danger">{{ item.blood_type }}</h3>
+                        <p class="card-text">Available: {{ item.quantity_ml }} ml</p>
+                        <div class="progress mt-3" style="height: 10px;">
+                            <div class="progress-bar bg-danger" role="progressbar" 
+                                 style="width: {{ (item.quantity_ml / 5000) * 100 }}%" 
+                                 aria-valuenow="{{ item.quantity_ml }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="5000"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 </div>
 
-{% if inventory %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const inventoryData = {
-            {% for item in inventory %}
-                "{{ item.blood_type }}": {{ item.quantity_ml }},
-            {% endfor %}
-        };
-        initializeInventoryChart(inventoryData);
-    });
-</script>
-{% endif %}
 {% endblock %}

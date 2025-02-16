@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card bg-dark">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Schedule Blood Donation</h2>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.donation_date.label(class="form-label") }}
+                        {{ form.donation_date(class="form-control" + (" is-invalid" if form.donation_date.errors else ""), type="date", min=(today)) }}
+                        {% for error in form.donation_date.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                        <small class="form-text text-muted">Please select a date at least 56 days after your last donation.</small>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-danger">Schedule Donation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SelectField, TextAreaField, IntegerField, BooleanField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Optional
+from datetime import datetime, timedelta
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -40,3 +41,8 @@ class InventoryUpdateForm(FlaskForm):
     ], validators=[DataRequired()])
     quantity_ml = IntegerField('Quantity (ml)', validators=[DataRequired()])
     operation = SelectField('Operation', choices=[('add', 'Add'), ('remove', 'Remove')], validators=[DataRequired()])
+
+class DonationScheduleForm(FlaskForm):
+    donation_date = DateField('Preferred Donation Date', 
+                            validators=[DataRequired()],
+                            default=datetime.utcnow() + timedelta(days=1))

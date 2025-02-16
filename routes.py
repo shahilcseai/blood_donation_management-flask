@@ -1,12 +1,24 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, login_required, current_user
 from app import app, db
-from models import User, DonorProfile, BloodInventory, BloodRequest, Notification
-from forms import LoginForm, RegistrationForm, DonorProfileForm, BloodRequestForm, InventoryUpdateForm
+from models import User, DonorProfile, BloodInventory, BloodRequest, Notification, DonationSchedule #Added DonationSchedule
+from forms import LoginForm, RegistrationForm, DonorProfileForm, BloodRequestForm, InventoryUpdateForm, DonationScheduleForm #Added DonationScheduleForm
 from datetime import datetime
+from sqlalchemy import inspect
+
+def init_blood_inventory():
+    blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+    for blood_type in blood_types:
+        if not BloodInventory.query.filter_by(blood_type=blood_type).first():
+            inventory = BloodInventory(blood_type=blood_type, quantity_ml=0)
+            db.session.add(inventory)
+    db.session.commit()
 
 @app.route('/')
 def home():
+    # Initialize blood inventory if empty
+    if not BloodInventory.query.first():
+        init_blood_inventory()
     inventory = BloodInventory.query.all()
     return render_template('home.html', inventory=inventory)
 
@@ -192,7 +204,44 @@ def handle_request(request_id, action):
     flash('Request has been processed.', 'success')
     return redirect(url_for('admin_dashboard'))
 
-# Context processor to make notifications available globally
+@app.route('/donor/schedule_donation', methods=['GET', 'POST'])
+@login_required
+def schedule_donation():
+    if current_user.role != 'donor':
+        flash('Access denied.', 'danger')
+        return redirect(url_for('home'))
+
+    if not current_user.donor_profile:
+        flash('Please create your donor profile first.', 'warning')
+        return redirect(url_for('create_donor_profile'))
+
+    form = DonationScheduleForm()
+    if form.validate_on_submit():
+        scheduled_date = form.donation_date.data
+
+        # Check if donor is eligible (last donation was more than 56 days ago)
+        last_donation = current_user.donor_profile.last_donation
+        if last_donation and (scheduled_date - last_donation).days < 56:
+            flash('You must wait at least 56 days between donations.', 'danger')
+            return redirect(url_for('schedule_donation'))
+
+        donation = DonationSchedule(
+            donor_id=current_user.id,
+            scheduled_date=scheduled_date,
+            status='scheduled'
+        )
+        db.session.add(donation)
+
+        # Update donor profile
+        current_user.donor_profile.last_donation = scheduled_date
+        current_user.donor_profile.total_donations += 1
+
+        db.session.commit()
+        flash('Donation scheduled successfully!', 'success')
+        return redirect(url_for('donor_dashboard'))
+
+    return render_template('donor/schedule_donation.html', form=form)
+
 @app.context_processor
 def utility_processor():
     def get_notifications():
