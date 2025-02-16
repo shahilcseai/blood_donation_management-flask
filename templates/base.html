@@ -22,6 +22,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="learnDropdown" role="button" data-bs-toggle="dropdown">
+                            Learn About Blood Donation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('learn_about_donation') }}">Why Donate Blood?</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('donation_process') }}">Donation Process</a></li>
+                        </ul>
+                    </li>
                     {% if current_user.is_authenticated %}
                         {% if current_user.role == 'donor' %}
                             <li class="nav-item">

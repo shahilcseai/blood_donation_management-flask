@@ -219,28 +219,39 @@ def schedule_donation():
     if form.validate_on_submit():
         scheduled_date = form.donation_date.data
 
-        # Check if donor is eligible (last donation was more than 56 days ago)
+        # Convert last_donation datetime to date for comparison
         last_donation = current_user.donor_profile.last_donation
-        if last_donation and (scheduled_date - last_donation).days < 56:
-            flash('You must wait at least 56 days between donations.', 'danger')
-            return redirect(url_for('schedule_donation'))
+        if last_donation:
+            last_donation_date = last_donation.date() if isinstance(last_donation, datetime) else last_donation
+            days_difference = (scheduled_date - last_donation_date).days
+            if days_difference < 56:
+                flash('You must wait at least 56 days between donations.', 'danger')
+                return redirect(url_for('schedule_donation'))
 
         donation = DonationSchedule(
             donor_id=current_user.id,
-            scheduled_date=scheduled_date,
+            scheduled_date=datetime.combine(scheduled_date, datetime.min.time()),
             status='scheduled'
         )
         db.session.add(donation)
 
-        # Update donor profile
-        current_user.donor_profile.last_donation = scheduled_date
+        # Update donor profile with datetime object
+        current_user.donor_profile.last_donation = datetime.combine(scheduled_date, datetime.min.time())
         current_user.donor_profile.total_donations += 1
 
         db.session.commit()
         flash('Donation scheduled successfully!', 'success')
         return redirect(url_for('donor_dashboard'))
 
-    return render_template('donor/schedule_donation.html', form=form)
+    return render_template('donor/schedule_donation.html', form=form, today=datetime.now().date())
+
+@app.route('/learn/donation')
+def learn_about_donation():
+    return render_template('learn/about_donation.html')
+
+@app.route('/learn/process')
+def donation_process():
+    return render_template('learn/donation_process.html')
 
 @app.context_processor
 def utility_processor():

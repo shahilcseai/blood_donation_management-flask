@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-4 text-danger mb-4">Why Donate Blood?</h1>
+    
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card bg-dark mb-4">
+                <div class="card-body">
+                    <h2 class="card-title text-danger">Impact of Blood Donation</h2>
+                    <p class="card-text">
+                        Every two seconds, someone in the world needs blood. Your donation can help:
+                    </p>
+                    <ul class="list-group list-group-flush bg-dark">
+                        <li class="list-group-item bg-dark">Cancer patients undergoing chemotherapy</li>
+                        <li class="list-group-item bg-dark">Accident and trauma victims</li>
+                        <li class="list-group-item bg-dark">Patients with blood disorders</li>
+                        <li class="list-group-item bg-dark">New mothers with complications during childbirth</li>
+                        <li class="list-group-item bg-dark">Patients undergoing major surgeries</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card bg-dark mb-4">
+                <div class="card-body">
+                    <h2 class="card-title text-danger">Blood Type Compatibility</h2>
+                    <p class="card-text">Understanding blood type compatibility is crucial for donation:</p>
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th>Blood Type</th>
+                                <th>Can Give To</th>
+                                <th>Can Receive From</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>O-</td>
+                                <td>All blood types</td>
+                                <td>O-</td>
+                            </tr>
+                            <tr>
+                                <td>O+</td>
+                                <td>O+, A+, B+, AB+</td>
+                                <td>O+, O-</td>
+                            </tr>
+                            <tr>
+                                <td>A-</td>
+                                <td>A-, A+, AB-, AB+</td>
+                                <td>A-, O-</td>
+                            </tr>
+                            <tr>
+                                <td>A+</td>
+                                <td>A+, AB+</td>
+                                <td>A+, A-, O+, O-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card bg-dark mb-4">
+                <div class="card-body">
+                    <h3 class="card-title text-danger">Donation Requirements</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">✓ Be at least 17 years old</li>
+                        <li class="mb-2">✓ Weigh at least 110 pounds</li>
+                        <li class="mb-2">✓ Be in good general health</li>
+                        <li class="mb-2">✓ Have not donated in the last 56 days</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card bg-dark">
+                <div class="card-body">
+                    <h3 class="card-title text-danger">Ready to Help?</h3>
+                    <p class="card-text">Make a difference in someone's life today.</p>
+                    <a href="{{ url_for('schedule_donation') }}" class="btn btn-danger btn-lg w-100">Schedule Donation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

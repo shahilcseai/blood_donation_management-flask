@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-4 text-danger mb-4">The Blood Donation Process</h1>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card bg-dark mb-4">
+                <div class="card-body">
+                    <h2 class="text-danger mb-4">What to Expect</h2>
+                    
+                    <div class="timeline">
+                        <div class="mb-4">
+                            <h3 class="h5 text-danger">1. Registration</h3>
+                            <p>You'll need to:</p>
+                            <ul>
+                                <li>Present valid ID</li>
+                                <li>Complete basic health questionnaire</li>
+                                <li>Provide contact information</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="h5 text-danger">2. Health Screening</h3>
+                            <p>A healthcare professional will:</p>
+                            <ul>
+                                <li>Check your temperature</li>
+                                <li>Measure blood pressure</li>
+                                <li>Test hemoglobin levels</li>
+                                <li>Review your health history</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="h5 text-danger">3. The Donation</h3>
+                            <p>The actual donation process:</p>
+                            <ul>
+                                <li>Takes about 10-15 minutes</li>
+                                <li>Collects approximately one pint of blood</li>
+                                <li>Is performed by trained professionals</li>
+                                <li>Uses sterile, single-use equipment</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="h5 text-danger">4. Refreshments & Recovery</h3>
+                            <p>After donation:</p>
+                            <ul>
+                                <li>Rest for 15 minutes</li>
+                                <li>Enjoy provided refreshments</li>
+                                <li>Schedule your next donation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card bg-dark mb-4">
+                <div class="card-body">
+                    <h3 class="text-danger">Before You Donate</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">✓ Get plenty of sleep</li>
+                        <li class="mb-2">✓ Eat a healthy meal</li>
+                        <li class="mb-2">✓ Drink extra water</li>
+                        <li class="mb-2">✓ Bring ID and medication list</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card bg-dark">
+                <div class="card-body">
+                    <h3 class="text-danger">After Donation Care</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">✓ Keep bandage on for 4-5 hours</li>
+                        <li class="mb-2">✓ Avoid heavy lifting</li>
+                        <li class="mb-2">✓ Stay hydrated</li>
+                        <li class="mb-2">✓ Eat iron-rich foods</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

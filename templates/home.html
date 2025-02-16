@@ -45,4 +45,43 @@
     </div>
 </div>
 
+<div class="container py-5">
+    <h2 class="text-center mb-4">Learn About Blood Donation</h2>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card bg-dark h-100">
+                <div class="card-body">
+                    <h3 class="card-title text-danger">Why Donate Blood?</h3>
+                    <p class="card-text">
+                        Your blood donation can help:
+                        <ul>
+                            <li>Accident and burn victims</li>
+                            <li>Heart surgery patients</li>
+                            <li>Cancer patients</li>
+                            <li>Organ transplant recipients</li>
+                        </ul>
+                    </p>
+                    <a href="{{ url_for('learn_about_donation') }}" class="btn btn-outline-danger">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg-dark h-100">
+                <div class="card-body">
+                    <h3 class="card-title text-danger">Donation Process</h3>
+                    <p class="card-text">
+                        The donation process is safe and simple:
+                        <ul>
+                            <li>Registration and health history</li>
+                            <li>Quick physical examination</li>
+                            <li>The actual donation (about 10-15 minutes)</li>
+                            <li>Refreshments and recovery</li>
+                        </ul>
+                    </p>
+                    <a href="{{ url_for('donation_process') }}" class="btn btn-outline-danger">See Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
