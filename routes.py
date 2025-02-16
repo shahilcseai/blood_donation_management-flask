@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, login_required, current_user
 from app import app, db
 from models import User, DonorProfile, BloodInventory, BloodRequest, Notification, DonationSchedule #Added DonationSchedule
-from forms import LoginForm, RegistrationForm, DonorProfileForm, BloodRequestForm, InventoryUpdateForm, DonationScheduleForm #Added DonationScheduleForm
+from forms import LoginForm, RegistrationForm, DonorProfileForm, BloodRequestForm, InventoryUpdateForm, DonationScheduleForm, DonorSearchForm #Added DonationScheduleForm, DonorSearchForm
 from datetime import datetime
 from sqlalchemy import inspect
 
@@ -260,3 +260,32 @@ def utility_processor():
             return Notification.query.filter_by(user_id=current_user.id, read=False).all()
         return []
     return dict(notifications=get_notifications())
+
+@app.route('/donor/search', methods=['GET'])
+def search_donors():
+    form = DonorSearchForm()
+    donors = []
+
+    if any([request.args.get('blood_type'), request.args.get('city'),
+            request.args.get('state'), request.args.get('zip_code')]):
+        query = DonorProfile.query.join(User)
+
+        if request.args.get('blood_type'):
+            query = query.filter(DonorProfile.blood_type == request.args.get('blood_type'))
+
+        if request.args.get('city'):
+            query = query.filter(DonorProfile.city.ilike(f"%{request.args.get('city')}%"))
+
+        if request.args.get('state'):
+            query = query.filter(DonorProfile.state.ilike(f"%{request.args.get('state')}%"))
+
+        if request.args.get('zip_code'):
+            query = query.filter(DonorProfile.zip_code == request.args.get('zip_code'))
+
+        donors = query.all()
+
+    return render_template('donor/search.html', form=form, donors=donors)
+
+@app.route('/learn/eligibility')
+def eligibility_requirements():
+    return render_template('learn/eligibility.html')

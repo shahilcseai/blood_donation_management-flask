@@ -29,6 +29,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ url_for('learn_about_donation') }}">Why Donate Blood?</a></li>
                             <li><a class="dropdown-item" href="{{ url_for('donation_process') }}">Donation Process</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('eligibility_requirements') }}">Eligibility Requirements</a></li>
                         </ul>
                     </li>
                     {% if current_user.is_authenticated %}
@@ -39,6 +40,9 @@
                         {% elif current_user.role == 'recipient' %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url_for('recipient_dashboard') }}">Recipient Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('search_donors') }}">Find Donors</a>
                             </li>
                         {% elif current_user.role == 'admin' %}
                             <li class="nav-item">

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="display-4 text-danger mb-4">Blood Donation Eligibility</h1>
+    
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card bg-dark mb-4">
+                <div class="card-body">
+                    <h2 class="text-danger">Basic Eligibility Requirements</h2>
+                    <ul class="list-group list-group-flush bg-dark">
+                        <li class="list-group-item bg-dark">
+                            <strong>Age:</strong> Must be at least 17 years old in most states
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <strong>Weight:</strong> At least 110 pounds
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <strong>Health:</strong> Generally good health and feeling well
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <strong>Frequency:</strong> Wait at least 56 days between whole blood donations
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card bg-dark mb-4">
+                <div class="card-body">
+                    <h2 class="text-danger">Health Conditions</h2>
+                    <div class="accordion" id="healthAccordion">
+                        <div class="accordion-item bg-dark">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    Medications
+                                </button>
+                            </h3>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#healthAccordion">
+                                <div class="accordion-body">
+                                    Most medications do not disqualify you from donating blood. Common medications like:
+                                    <ul>
+                                        <li>Blood pressure medications</li>
+                                        <li>Birth control pills</li>
+                                        <li>Antidepressants</li>
+                                        <li>Diabetic medications</li>
+                                    </ul>
+                                    are acceptable. However, some medications may require a waiting period.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card bg-dark mb-4">
+                <div class="card-body">
+                    <h3 class="text-danger">Recent Activities</h3>
+                    <p>You should not donate if you have:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">✗ Had a cold or flu in the last 3 days</li>
+                        <li class="mb-2">✗ Received a tattoo in the last 3 months</li>
+                        <li class="mb-2">✗ Traveled to certain countries recently</li>
+                        <li class="mb-2">✗ Had major surgery in the last 6 months</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card bg-dark">
+                <div class="card-body">
+                    <h3 class="text-danger">Ready to Donate?</h3>
+                    <p>If you meet these requirements, you can make a difference today!</p>
+                    <a href="{{ url_for('schedule_donation') }}" class="btn btn-danger btn-lg w-100">Schedule Donation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

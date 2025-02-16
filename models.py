@@ -34,6 +34,13 @@ class DonorProfile(db.Model):
     medical_conditions = db.Column(db.Text)
     availability_status = db.Column(db.String(20), default='available')
     total_donations = db.Column(db.Integer, default=0)
+    # New location fields
+    address = db.Column(db.String(200))
+    city = db.Column(db.String(100))
+    state = db.Column(db.String(50))
+    zip_code = db.Column(db.String(10))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class BloodInventory(db.Model):

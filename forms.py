@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, TextAreaField, IntegerField, BooleanField, DateField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, Optional
+from wtforms import StringField, PasswordField, SelectField, TextAreaField, IntegerField, BooleanField, DateField, FloatField
+from wtforms.validators import DataRequired, Email, Length, EqualTo, Optional, NumberRange
 from datetime import datetime, timedelta
 
 class LoginForm(FlaskForm):
@@ -21,7 +21,22 @@ class DonorProfileForm(FlaskForm):
     ], validators=[DataRequired()])
     last_donation = DateField('Last Donation Date', validators=[Optional()])
     medical_conditions = TextAreaField('Medical Conditions')
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    zip_code = StringField('ZIP Code', validators=[DataRequired(), Length(min=5, max=10)])
     agree_to_terms = BooleanField('I agree to the terms and conditions', validators=[DataRequired()])
+
+class DonorSearchForm(FlaskForm):
+    blood_type = SelectField('Blood Type', choices=[
+        ('', 'Any'),
+        ('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'),
+        ('AB+', 'AB+'), ('AB-', 'AB-'), ('O+', 'O+'), ('O-', 'O-')
+    ], validators=[Optional()])
+    city = StringField('City', validators=[Optional()])
+    state = StringField('State', validators=[Optional()])
+    zip_code = StringField('ZIP Code', validators=[Optional()])
+    radius = IntegerField('Search Radius (miles)', validators=[Optional(), NumberRange(min=1, max=100)])
 
 class BloodRequestForm(FlaskForm):
     blood_type = SelectField('Blood Type', choices=[
