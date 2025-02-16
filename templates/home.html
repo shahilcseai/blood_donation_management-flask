@@ -1,69 +1,75 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="px-4 py-5 text-center">
-    <img src="{{ url_for('static', filename='images/logo.svg') }}" class="d-block mx-auto mb-4" width="72" height="72" alt="Logo">
-    <h1 class="display-5 fw-bold">Blood Donation Management System</h1>
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-danger mb-4">
+        <i class="bi bi-heart-pulse"></i> Save Lives Through Blood Donation
+    </h1>
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">
-            Connecting blood donors with recipients. Save lives by donating blood or find donors when in need.
+            Join our community of blood donors and help save lives. Whether you're a donor or in need of blood, 
+            we're here to facilitate the connection.
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
             {% if not current_user.is_authenticated %}
-                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4 gap-3">Register Now</a>
-                <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg px-4">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-danger btn-lg px-4 gap-3">Register Now</a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-4">Login</a>
             {% endif %}
         </div>
     </div>
 </div>
 
-<div class="container px-4 py-5">
-    <h2 class="pb-2 border-bottom">Available Blood Types</h2>
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-4">
-        {% for blood_type in inventory %}
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3 class="card-title">{{ blood_type.blood_type }}</h3>
-                    <p class="card-text">Available: {{ blood_type.quantity_ml }}ml</p>
-                    <p class="card-text"><small class="text-muted">Last updated: {{ blood_type.last_updated.strftime('%Y-%m-%d') }}</small></p>
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card bg-dark stats-card">
+                <div class="card-body text-center">
+                    <i class="bi bi-droplet-fill text-danger display-4"></i>
+                    <h5 class="card-title mt-3">Blood Inventory</h5>
+                    <p class="card-text">Check current blood availability</p>
                 </div>
             </div>
         </div>
-        {% endfor %}
+        <div class="col-md-4">
+            <div class="card bg-dark stats-card">
+                <div class="card-body text-center">
+                    <i class="bi bi-people-fill text-primary display-4"></i>
+                    <h5 class="card-title mt-3">Donor Community</h5>
+                    <p class="card-text">Join our growing donor network</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-dark stats-card">
+                <div class="card-body text-center">
+                    <i class="bi bi-clipboard2-pulse-fill text-success display-4"></i>
+                    <h5 class="card-title mt-3">Request Blood</h5>
+                    <p class="card-text">Submit blood requests easily</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="container px-4 py-5">
-    <h2 class="pb-2 border-bottom">How It Works</h2>
-    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-        <div class="col d-flex align-items-start">
-            <div class="icon-square text-body-emphasis d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                <i data-feather="user-plus"></i>
-            </div>
-            <div>
-                <h3 class="fs-2">Register</h3>
-                <p>Create an account as a donor or recipient to get started.</p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <div class="icon-square text-body-emphasis d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                <i data-feather="heart"></i>
-            </div>
-            <div>
-                <h3 class="fs-2">Donate or Request</h3>
-                <p>Donate blood or submit a request when you need blood.</p>
-            </div>
-        </div>
-        <div class="col d-flex align-items-start">
-            <div class="icon-square text-body-emphasis d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                <i data-feather="check-circle"></i>
-            </div>
-            <div>
-                <h3 class="fs-2">Match</h3>
-                <p>We match donors with recipients based on blood type and location.</p>
-            </div>
+<div class="container py-5">
+    <h2 class="text-center mb-4">Current Blood Inventory</h2>
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <canvas id="inventoryChart"></canvas>
         </div>
     </div>
 </div>
+
+{% if inventory %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inventoryData = {
+            {% for item in inventory %}
+                "{{ item.blood_type }}": {{ item.quantity_ml }},
+            {% endfor %}
+        };
+        initializeInventoryChart(inventoryData);
+    });
+</script>
+{% endif %}
 {% endblock %}

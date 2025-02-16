@@ -1,0 +1,36 @@
+/* Custom styles to complement Bootstrap dark theme */
+.blood-type-badge {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.emergency-badge {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.stats-card {
+    transition: transform 0.2s;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.7rem;
+}
+
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}

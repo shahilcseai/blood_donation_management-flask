@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card bg-dark">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Update Blood Inventory</h2>
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-dark">
+                                <thead>
+                                    <tr>
+                                        <th>Blood Type</th>
+                                        <th>Current Quantity (ml)</th>
+                                        <th>Last Updated</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in inventory %}
+                                    <tr>
+                                        <td>{{ item.blood_type }}</td>
+                                        <td>{{ item.quantity_ml }}</td>
+                                        <td>{{ item.last_updated.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            {{ form.blood_type.label(class="form-label") }}
+                            {{ form.blood_type(class="form-select" + (" is-invalid" if form.blood_type.errors else "")) }}
+                            {% for error in form.blood_type.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.quantity_ml.label(class="form-label") }}
+                            {{ form.quantity_ml(class="form-control" + (" is-invalid" if form.quantity_ml.errors else "")) }}
+                            {% for error in form.quantity_ml.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.operation.label(class="form-label") }}
+                            {{ form.operation(class="form-select" + (" is-invalid" if form.operation.errors else "")) }}
+                            {% for error in form.operation.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Update Inventory</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

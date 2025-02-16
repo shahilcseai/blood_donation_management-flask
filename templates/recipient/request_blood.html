@@ -2,26 +2,29 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
+    <div class="col-md-8">
+        <div class="card bg-dark">
             <div class="card-body">
                 <h2 class="card-title text-center mb-4">Request Blood</h2>
                 <form method="POST" action="">
                     {{ form.hidden_tag() }}
-                    <div class="mb-3">
-                        {{ form.blood_type.label(class="form-label") }}
-                        {{ form.blood_type(class="form-select" + (" is-invalid" if form.blood_type.errors else "")) }}
-                        {% for error in form.blood_type.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            {{ form.blood_type.label(class="form-label") }}
+                            {{ form.blood_type(class="form-select" + (" is-invalid" if form.blood_type.errors else "")) }}
+                            {% for error in form.blood_type.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.quantity_ml.label(class="form-label") }}
+                            {{ form.quantity_ml(class="form-control" + (" is-invalid" if form.quantity_ml.errors else "")) }}
+                            {% for error in form.quantity_ml.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        {{ form.quantity_ml.label(class="form-label") }}
-                        {{ form.quantity_ml(class="form-control" + (" is-invalid" if form.quantity_ml.errors else ""), type="number") }}
-                        {% for error in form.quantity_ml.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
+
                     <div class="mb-3">
                         {{ form.hospital_name.label(class="form-label") }}
                         {{ form.hospital_name(class="form-control" + (" is-invalid" if form.hospital_name.errors else "")) }}
@@ -29,6 +32,7 @@
                             <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
                     </div>
+
                     <div class="mb-3">
                         {{ form.contact_number.label(class="form-label") }}
                         {{ form.contact_number(class="form-control" + (" is-invalid" if form.contact_number.errors else "")) }}
@@ -36,22 +40,27 @@
                             <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
                     </div>
-                    <div class="mb-3 form-check">
-                        {{ form.emergency(class="form-check-input" + (" is-invalid" if form.emergency.errors else "")) }}
-                        {{ form.emergency.label(class="form-check-label") }}
-                        {% for error in form.emergency.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            {{ form.emergency(class="form-check-input" + (" is-invalid" if form.emergency.errors else "")) }}
+                            {{ form.emergency.label(class="form-check-label") }}
+                            {% for error in form.emergency.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     </div>
+
                     <div class="mb-3">
                         {{ form.notes.label(class="form-label") }}
-                        {{ form.notes(class="form-control" + (" is-invalid" if form.notes.errors else "")) }}
+                        {{ form.notes(class="form-control" + (" is-invalid" if form.notes.errors else ""), rows="3") }}
                         {% for error in form.notes.errors %}
                             <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
                     </div>
+
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                        <button type="submit" class="btn btn-danger">Submit Request</button>
                     </div>
                 </form>
             </div>

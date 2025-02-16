@@ -11,4 +11,7 @@ dependencies = [
     "gunicorn>=23.0.0",
     "psycopg2-binary>=2.9.10",
     "flask-wtf>=1.2.2",
+    "wtforms>=3.2.1",
+    "sqlalchemy>=2.0.38",
+    "werkzeug>=3.1.3",
 ]
