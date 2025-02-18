@@ -80,19 +80,33 @@ def create_donor_profile():
         return redirect(url_for('home'))
     if current_user.donor_profile:
         return redirect(url_for('donor_dashboard'))
-    
+
     form = DonorProfileForm()
     if form.validate_on_submit():
         profile = DonorProfile(
             user_id=current_user.id,
             blood_type=form.blood_type.data,
             last_donation=form.last_donation.data,
-            medical_conditions=form.medical_conditions.data
+            medical_conditions=form.medical_conditions.data,
+            address=form.address.data,
+            city=form.city.data,
+            state=form.state.data,
+            zip_code=form.zip_code.data,
+            # Initialize these as None for now, can be updated later with geocoding
+            latitude=None,
+            longitude=None,
+            availability_status='available'
         )
         db.session.add(profile)
-        db.session.commit()
-        flash('Donor profile created successfully!', 'success')
-        return redirect(url_for('donor_dashboard'))
+        try:
+            db.session.commit()
+            flash('Donor profile created successfully!', 'success')
+            return redirect(url_for('donor_dashboard'))
+        except Exception as e:
+            db.session.rollback()
+            flash('Error creating profile. Please try again.', 'danger')
+            app.logger.error(f"Error creating donor profile: {str(e)}")
+
     return render_template('donor/create_profile.html', form=form)
 
 @app.route('/recipient/dashboard')
